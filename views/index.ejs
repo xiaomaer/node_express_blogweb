@@ -1,0 +1,15 @@
+<% include header.ejs %>
+<% if(!user){ %>
+<div id="toppart">
+    <h2>欢迎来到简易博客</h2>
+
+    <p>该博客基于node.js+express+mongoDB来实现的。</p>
+    <br/>
+    <a href="/login" class="btn">登陆</a>
+    <a href="/reg" class="btn">注册</a>
+</div>
+<% }else{ %>
+<% include say.ejs %>
+<% } %>
+<% include posts.ejs %>
+<% include footer.ejs %>

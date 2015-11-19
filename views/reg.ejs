@@ -1,0 +1,25 @@
+<% include header.ejs %>
+<% include alert.ejs %>
+<form method="post">
+    <h3 class="title">用户注册</h3>
+
+    <div class="line">
+        <label for="uname">姓名：
+        </label>
+        <input type="text" id="uname" name="username"/>
+    </div>
+    <div class="line">
+        <label for="upwd">密码：
+        </label>
+        <input type="password" id="upwd" name="userpwd"/>
+    </div>
+    <div class="line">
+        <label for="upwd2">确认密码：
+        </label>
+        <input type="password" id="upwd2" name="pwdrepeat"/>
+    </div>
+    <div class="line">
+        <button type="submit" id="btnreg">注册</button>
+    </div>
+</form>
+<% include footer.ejs %>

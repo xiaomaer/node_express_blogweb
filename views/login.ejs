@@ -1,0 +1,20 @@
+<% include header.ejs %>
+<% include alert.ejs %>
+<form method="post">
+    <h3 class="title">用户登陆</h3>
+
+    <div class="line">
+        <label for="uname">姓名：
+        </label>
+        <input type="text" id="uname" name="username"/>
+    </div>
+    <div class="line">
+        <label for="upwd">密码：
+        </label>
+        <input type="password" id="upwd" name="userpwd"/>
+    </div>
+    <div class="line">
+        <button type="submit" id="btnreg">登陆</button>
+    </div>
+</form>
+<% include footer.ejs %>

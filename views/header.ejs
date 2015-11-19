@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<div id="header">
+    <ul id="menus">
+        <li><a href="/" class="menu introduce">简易博客</a></li>
+        <li><a href="/" class="menu">首页</a></li>
+        <% if(!user) { %>
+        <li><a href="/login" class="menu">登陆</a></li>
+        <li><a href="/reg" class="menu">注册</a></li>
+        <% }else{ %>
+        <li><a href="/logout" class="menu">退出</a></li>
+        <% } %>
+    </ul>
+</div>
+<div id="content">

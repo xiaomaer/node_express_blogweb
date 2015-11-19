@@ -1,0 +1,186 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Microsoft YaHei UI";
+}
+body{
+    overflow-x: hidden;
+}
+@media screen and (max-width: 500px){
+    body{
+        width: 500px;
+    }
+
+}
+#header {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #222222;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+#menus {
+    list-style: none;
+    margin-left: 80px;
+    height: 40px;
+    overflow: hidden;
+}
+
+#menus li {
+    float: left;
+}
+
+.menu {
+    display: block;
+    padding: 0px 20px;
+    text-decoration: none;
+    color: white;
+}
+
+.introduce {
+    font-size: large;
+    font-weight: bold;
+}
+
+.menu:hover {
+    color: blue;
+}
+
+#content {
+    padding-top: 50px;
+}
+
+#footer {
+    position: relative;
+    bottom: 10px;
+    left: 50%;
+    margin-top: 40px;
+    margin-left: -550px;
+    width: 1100px;
+    height: 30px;
+    line-height: 30px;
+    border-top: 2px solid #e5e5e5;
+    text-align: center;
+}
+
+#toppart, #bottompart {
+    width: 1100px;
+    margin: 10px auto;
+}
+
+#toppart {
+    padding: 20px 10px;
+    background-color: #e5e5e5;
+}
+
+.btn {
+   text-decoration: none;
+    display: inline-block;
+    color: black;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#bottompart, .row {
+    overflow: hidden;
+}
+
+.row {
+    width: 100%;
+}
+
+.ctn {
+    width: 30%;
+    height: 150px;
+    float: left;
+    margin:5px;
+    padding: 10px;
+    background-color: #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+form {
+    width: 400px;
+    margin: 40px auto;
+    background-color: #2f6fad;
+    padding: 30px;
+    text-align: center;
+}
+
+.line {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+}
+
+input, #btnreg {
+    height: 30px;
+}
+
+input {
+    width: 290px;
+
+}
+
+#btnreg {
+    width: 100px;
+}
+
+.alert {
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin: 20px auto;
+    background-color: #b94a48;
+}
+
+#public {
+    width: 500px;
+    background-color: white;
+    margin: 0px auto;
+
+}
+
+#pctn, #pbtn {
+    outline: none;
+}
+
+#pctn {
+    width: 300px;
+    height: 40px;
+    border: 1px solid #b94a48;
+}
+
+#pbtn {
+    width: 100px;
+    height: 42px;
+    background-color: #b94a48;
+    margin-left: -5px;
+    border: 0px;
+}
+.username{
+    text-decoration: none;
+    color: #888888;
+}
+.username:hover{
+    color: blue;
+}

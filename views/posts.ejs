@@ -1,0 +1,18 @@
+<!--按行按列显示传入的posts的所有内容-->
+<div id="bottompart">
+<% posts.forEach(function(post, index){
+if(index % 3 == 0){ %>
+<div class="row">
+    <% } %>
+    <div class="ctn">
+        <h3><a href='/u/<%= post.user %>' class="username"><%= post.user %></a>说：</h3>
+        <p><%= post.time %><br/><%= post.post %></p>
+    </div>
+    <% if(index % 3 == 2){ %>
+</div>
+<% } %>
+<% }); %>
+<% if(posts.length % 3 != 0){ %>
+</div>
+<% } %>
+</div>
