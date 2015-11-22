@@ -5,7 +5,7 @@ var User = require('../models/user.js');
 var Post = require("../models/post.js");
 
 /* GET home page. */
-//匹配路由
+//匹配路由:通过router.get()或router.post()创建路由规则
 //首页:显示所有的微博，并按照时间先后顺序排列
 router.get('/', function (req, res) {
     //读取所有的用户微博，传递给页面posts
@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
     });
 });
 //用户首页
-router.get('/u/:user', function (req, res) {
+router.get('/u/:user', function (req, res) {//路由规则/
     User.get(req.params.user, function (err, user) {
         //判断用户是否存在
         if (!user) {
@@ -41,7 +41,7 @@ router.get('/u/:user', function (req, res) {
 });
 //发表信息
 router.post('/post', checkLogin);//页面权限控制
-router.post('/post', function (req, res) {
+router.post('/post', function (req, res) {//路由规则/post
     var currentUser = req.session.user;//获取当前用户信息
         if(req.body.post == ""){
         req.flash('error', '内容不能为空！');
@@ -151,7 +151,8 @@ function checkNotLogin(req, res, next) {
         req.flash('error', '已登录');
         return res.redirect('/');
     }
-    next();
+    next();//控制权转移：当不同路由规则向同一路径提交请求时，在通常情况下，请求总是被第一条路由规则捕获，
+    // 后面的路由规则将会被忽略，为了可以访问同一路径的多个路由规则，使用next()实现控制权转移。
 }
 function checkLogin(req, res, next) {
     if (!req.session.user)//用户不存在
