@@ -9,11 +9,14 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 
+//使用时新添加的，上面的依赖包是创建文件时自带的。
+var settings = require('./settings');//数据库连接
+//session会话
 var session = require('express-session');//session使用
 var MongoStore = require('connect-mongo')(session);//mongodb使用
-var settings = require('./settings');
+//引入 flash 模块来实现页面通知
 var flash = require('connect-flash');//req.flash()使用
-
+//自己添加的
 
 //创建项目实例
 var app = express();
@@ -22,7 +25,10 @@ var app = express();
 //设置模板引擎的位置和格式
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(flash());
+
+//新添加
+app.use(flash());//定义使用 flash 功能
+
 // uncomment after placing your favicon in /public
 //定义网页标签中显示的图标
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -37,24 +43,28 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//提供session支持
+//自己添加的，提供session支持
 app.use(session({
-    secret: settings.cookieSecret,
+    secret: settings.cookieSecret,//secret 用来防止篡改 cookie
+    //设置它的 store 参数为 MongoStore 实例，把会话信息存储到数据库中，以避免丢失。
     store: new MongoStore({
         db: settings.db,
     })
 }));
-//视图交互
+//自己添加的
+// 视图交互：实现用户不同登陆状态下显示不同的页面及显示登陆注册等时的成功和错误等提示信息
 app.use(function(req, res, next){
     console.log("app.usr local");
+    //res.locals.xxx实现xxx变量全局化，在其他页面直接访问变量名即可
+    //访问session数据：用户信息
     res.locals.user = req.session.user;
-    res.locals.post = req.session.post;
-    var error = req.flash('error');
+    //显示错误信息
+    var error = req.flash('error');//获取flash中存储的error信息
     res.locals.error = error.length ? error : null;
-
+    //显示成功信息
     var success = req.flash('success');
     res.locals.success = success.length ? success : null;
-    next();
+    next();//控制权转移，继续执行下一个app。use()
 });
 //定义匹配路由
 app.use('/', routes);//指向了routes目录下的index.js文件

@@ -1,7 +1,7 @@
-<% include header.ejs %>
-<% include alert.ejs %>
+<%- include header.ejs %>
+<%- include alert.ejs %>
 <% if(user){ %>
-<%include say.ejs %>
+<%include say.ejs %><!--替换了书中的partial函数-->
 <% } %>
-<%include posts.ejs %>
-<% include footer.ejs %>
+<%- include posts.ejs %><!--替换了书中的partial函数-->
+<%- include footer.ejs %>

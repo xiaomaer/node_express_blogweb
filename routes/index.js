@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();//创建模块化安装路径的处理程序。
-var crypto = require('crypto');
-var User = require('../models/user.js');
-var Post = require("../models/post.js");
+var crypto = require('crypto');//加载生成MD5值依赖模块
+var User = require('../models/user.js');//加载用户保存和获取模块
+var Post = require("../models/post.js");//加载用户发表微博模块
 
 /* GET home page. */
 //匹配路由:通过router.get()或router.post()创建路由规则
+
 //首页:显示所有的微博，并按照时间先后顺序排列
 router.get('/', function (req, res) {
-    //读取所有的用户微博，传递给页面posts
+    //读取所有的用户微博，传递把posts微博数据集传给首页
     Post.get(null, function (err, posts) {
         if (err) {
             posts = [];
@@ -18,20 +19,20 @@ router.get('/', function (req, res) {
     });
 });
 //用户首页
-router.get('/u/:user', function (req, res) {//路由规则/
+router.get('/u/:user', function (req, res) {//路由规则
     User.get(req.params.user, function (err, user) {
         //判断用户是否存在
         if (!user) {
             req.flash('error', '用户不存在');
-            return res.redirect('/blog');
+            return res.redirect('/');
         }
-        //用户存在，从数据库获取该用户的微博信息
+        //调用对象的方法用户存在，从数据库获取该用户的微博信息
         Post.get(user.name, function (err, posts) {
             if (err) {
                 req.flash('error', err);
                 return res.redirect('/');
             }
-            //调用user模板，并传送数据
+            //调用user模板引擎，并传送数据（用户名和微博集合）
             res.render('user', {
                 title: user.name,
                 posts: posts
@@ -43,12 +44,13 @@ router.get('/u/:user', function (req, res) {//路由规则/
 router.post('/post', checkLogin);//页面权限控制
 router.post('/post', function (req, res) {//路由规则/post
     var currentUser = req.session.user;//获取当前用户信息
-        if(req.body.post == ""){
+        if(req.body.post == ""){//发布信息不能为空
         req.flash('error', '内容不能为空！');
         return res.redirect('/u/' + currentUser.name);
     }
+    //实例化Post对象
    var post = new Post(currentUser.name, req.body.post);//req.body.post获取用户发表的内容
-    //发表微博，保存数据
+    //调用实例方法，发表微博，并把信息保存到MongoDB数据库
     post.save(function (err) {
         if (err) {
             req.flash('error', err);
@@ -57,7 +59,6 @@ router.post('/post', function (req, res) {//路由规则/post
         req.flash('sucess', '发表成功');
         res.redirect('/u/' + currentUser.name);
     });
-
 });
 //注册
 router.get('/reg', checkNotLogin);//页面权限控制，注册功能只对未登录用户可用
@@ -66,11 +67,12 @@ router.get('/reg', function (req, res) {
 });
 router.post('/reg', checkNotLogin);
 router.post('/reg', function (req, res) {
-    console.log(req.body['pwdrepeat'] + ";" + req.body['userpwd']);
+    //console.log(req.body['pwdrepeat'] + ";" + req.body['userpwd']);
     //用户名密码不能为空
     if (req.body.username == "" || req.body.userpwd == "" || req.body.pwdrepeat == "") {
-        req.flash('error', "输入框不能为空！");
-        return res.redirect('/reg');
+        //使用req.body.username获取提交请求的用户名，username为input的name
+        req.flash('error', "输入框不能为空！");//保存信息到error中，然后通过视图交互传递提示信息，调用alert.ejs模块进行显示
+        return res.redirect('/reg');//返回reg页面
     }
     //两次输入密码如果不一致，提示信息
     if (req.body['pwdrepeat'] !== req.body['userpwd']) {
@@ -81,7 +83,7 @@ router.post('/reg', function (req, res) {
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.userpwd).digest('base64');
 
-    //用对象实例化User对象，用于存储新注册用户和判断注册用户是否存在
+    //用新注册用户信息对象实例化User对象，用于存储新注册用户和判断注册用户是否存在
     var newUser = new User({
         name: req.body.username,
         password: password,
@@ -101,7 +103,7 @@ router.post('/reg', function (req, res) {
                 req.flash('error', err);
                 return res.redirect('/reg');
             }
-            req.session.user = newUser;
+            req.session.user = newUser;//保存用户信息，用于判断用户是否已登录
             req.flash('success', req.session.user.name + '注册成功');
             res.redirect('/');
         });
@@ -127,16 +129,15 @@ router.post('/login', function (req, res) {
             req.flash('error', '用户密码不存在');
             return res.redirect('/login');
         }
-        req.session.user = user;
+        req.session.user = user;//保存用户信息
         req.flash('success', '登陆成功！');
         res.redirect('/');
     });
-
 });
 //退出
 router.get('/logout', checkLogin);//退出功能只对已登陆的用户可用
 router.get('/logout', function (req, res) {
-    req.session.user = null;
+    req.session.user = null;//清空session
     req.flash('sucess', '退出成功！');
     res.redirect('/');
 });
@@ -156,10 +157,11 @@ function checkNotLogin(req, res, next) {
 }
 function checkLogin(req, res, next) {
     if (!req.session.user)//用户不存在
-    {
+    {   //未登录跳转到登陆界面
         req.flash('error', '未登录');
         return res.redirect('/login');
     }
+    //已登录转移到下一个同一路径请求的路由规则操作
     next();
 }
 module.exports = router;

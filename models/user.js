@@ -1,18 +1,19 @@
 /**
  * Created by MMY on 2015/11/18.
  */
-var mongodb = require('./db');
+var mongodb = require('./db');//加载数据库模块
 
+//User构造函数，用于创建对象
 function User(user) {
     this.name = user.name;
     this.password = user.password;
 };
-
+//输出User对象
 module.exports = User;
 
-//存入Mongodb的文档
+//User对象方法：把用户信息存入Mongodb
 User.prototype.save = function save(callback) {
-    var user = {
+    var user = {//用户信息
         name: this.name,
         password: this.password,
     };
@@ -21,7 +22,7 @@ User.prototype.save = function save(callback) {
         if (err) {
             return callback(err);
         }
-        //读取users集合
+        //读取users集合，users相当于数据库中的表
         db.collection('users', function(err, collection) {//定义集合名称users
             if (err) {
                 mongodb.close();
@@ -30,7 +31,7 @@ User.prototype.save = function save(callback) {
             // 为name属性添加索引
             // collection.ensureIndex('name', {unique: true});
 
-            //写入user文档
+            //把user对象中的数据，即用户注册信息写入users集合中
             collection.insert(user, {safe: true}, function(err, user) {
                 mongodb.close();
                 callback(err, user);
@@ -38,7 +39,7 @@ User.prototype.save = function save(callback) {
         });
     });
 }
-
+//Usr对象方法：从数据库中查找指定用户的信息
 User.get = function get(username, callback) {
     mongodb.open(function(err, db) {
         if (err) {
@@ -50,11 +51,11 @@ User.get = function get(username, callback) {
                 mongodb.close();
                 return callback(err);
             }
-            //查找name属性为username的文档
+            //从users集合中查找name属性为username的记录
             collection.findOne({name: username}, function(err, doc) {
                 mongodb.close();
                 if (doc) {
-                    //封装文档为User对象
+                    //封装查询结果为User对象
                     var user = new User(doc);
                     callback(err, user);
                 } else {

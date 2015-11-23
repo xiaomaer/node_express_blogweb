@@ -1,5 +1,5 @@
-<% include header.ejs %>
-<% if(!user){ %>
+<%- include header.ejs %>
+<% if(!user){ %><!--未登录时显示登陆信息-->
 <div id="toppart">
     <h2>欢迎来到简易博客</h2>
 
@@ -8,8 +8,8 @@
     <a href="/login" class="btn">登陆</a>
     <a href="/reg" class="btn">注册</a>
 </div>
-<% }else{ %>
-<% include say.ejs %>
+<% }else{ %><!--登陆后，显示发布微博的界面-->
+<%- include say.ejs %>
 <% } %>
-<% include posts.ejs %>
-<% include footer.ejs %>
+<%- include posts.ejs %>
+<%- include footer.ejs %>
