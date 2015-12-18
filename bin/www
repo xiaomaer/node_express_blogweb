@@ -29,6 +29,10 @@ server.listen(port);//监听端口号
 server.on('error', onError);
 server.on('listening', onListening);
 
+//在默认情况下，同一个指定的事件，最多可以绑定10个事件处理函数.当绑定数超出时，启动nodejs时，会有相应的错误提示:
+//(node) warning: possible EventEmitter memory leak detected. 11 reconnect listeners added. Use emitter.setMaxListeners() to increase limit.
+//通过setMaxListeners()修改默认绑定的事件处理函数可以解决以上错误。把setMaxListeners()的参数修改为Infinity 或 0即可。
+//server.setMaxListeners(Infinity);
 /**
  * Normalize a port into a number, string, or false.
  */

@@ -16,6 +16,8 @@ var session = require('express-session');//session使用
 var MongoStore = require('connect-mongo')(session);//mongodb使用
 //引入 flash 模块来实现页面通知
 var flash = require('connect-flash');//req.flash()使用
+
+//process.setMaxListeners(0);//不能解决(node) warning: possible EventEmitter memory leak detected. 11 reconnect listeners added. Use emitter.setMaxListeners() to increase limit.
 //自己添加的
 
 //创建项目实例
@@ -54,7 +56,7 @@ app.use(session({
 //自己添加的
 // 视图交互：实现用户不同登陆状态下显示不同的页面及显示登陆注册等时的成功和错误等提示信息
 app.use(function(req, res, next){
-    console.log("app.usr local");
+    console.log("视图交互");
     //res.locals.xxx实现xxx变量全局化，在其他页面直接访问变量名即可
     //访问session数据：用户信息
     res.locals.user = req.session.user;
