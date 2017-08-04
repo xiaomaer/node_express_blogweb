@@ -9,7 +9,7 @@
 > CSS前端框架：无，自己通过CSS实现前端页面的简单布局  
 
 #### 示例运行步骤:
-> ①安装Node.js、MongoDB、npm；  
-> ②`git clone`项目
-> ③进入项目目录,使用`npm start`命令运行项目；  
+> ①安装Node.js、MongoDB和npm  
+> ②`git clone`项目  
+> ③进入项目目录,使用`npm start`命令启动项目   
 > ④在浏览器中打开http://127.0.0.1:8001 即可。  
